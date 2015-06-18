@@ -94,7 +94,7 @@ func TestStatusJson(t *testing.T) {
 		t.Fatal(err)
 	}
 	testCases := []TestCase{
-		{statusNodeKeyPrefix, "\"d\":"},
+		{statusNodeKeyPrefix, "\\\"d\\\":"},
 	}
 	// Test the /_status/local/ endpoint only in a go release branch.
 	if !strings.HasPrefix(runtime.Version(), "devel") {
