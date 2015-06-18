@@ -549,7 +549,10 @@ func (n *Node) startPublishStatuses(stopper *util.Stopper) {
 		for {
 			select {
 			case <-ticker.C:
-				n.publishStoreStatuses()
+				err := n.publishStoreStatuses()
+				if err != nil {
+					log.Error(err)
+				}
 			case <-stopper.ShouldStop():
 				return
 			}
@@ -558,12 +561,9 @@ func (n *Node) startPublishStatuses(stopper *util.Stopper) {
 }
 
 // publishStoreStatuses calls publishStatus on each store on the node.
-func (n *Node) publishStoreStatuses() {
-	// Will never error because PublishStoreStatus does not return
-	// an error.
-	_ = n.lSender.VisitStores(func(store *storage.Store) error {
-		store.PublishStatus()
-		return nil
+func (n *Node) publishStoreStatuses() error {
+	return n.lSender.VisitStores(func(store *storage.Store) error {
+		return store.PublishStatus()
 	})
 }
 

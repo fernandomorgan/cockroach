@@ -1668,12 +1668,11 @@ func (s *Store) updateStoreStatus() {
 // PublishStatus publishes periodically computed status events to the store's
 // events feed. This method itself should be periodically called by some
 // external mechanism.
-func (s *Store) PublishStatus() {
+func (s *Store) PublishStatus() error {
 	// broadcast store descriptor.
 	desc, err := s.Descriptor()
 	if err != nil {
-		log.Error(err)
-		return
+		return err
 	}
 	s.feed.storeStatus(desc)
 
@@ -1682,6 +1681,8 @@ func (s *Store) PublishStatus() {
 	leaderRangeCount, replicatedRangeCount, availableRangeCount :=
 		s.computeReplicationStatus(now)
 	s.feed.replicationStatus(leaderRangeCount, replicatedRangeCount, availableRangeCount)
+
+	return nil
 }
 
 // SetRangeRetryOptions sets the retry options used for this store.
