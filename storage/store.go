@@ -1681,7 +1681,6 @@ func (s *Store) PublishStatus() error {
 	leaderRangeCount, replicatedRangeCount, availableRangeCount :=
 		s.computeReplicationStatus(now)
 	s.feed.replicationStatus(leaderRangeCount, replicatedRangeCount, availableRangeCount)
-
 	return nil
 }
 

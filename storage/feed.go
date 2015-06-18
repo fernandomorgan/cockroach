@@ -85,8 +85,7 @@ type StartStoreEvent struct {
 // from other events, this event should be periodically broadcast by the store
 // independently of other operations.
 type StoreStatusEvent struct {
-	StoreID proto.StoreID
-	Desc    *proto.StoreDescriptor
+	Desc *proto.StoreDescriptor
 }
 
 // ReplicationStatusEvent contains statistics on the replication status of the
@@ -201,8 +200,7 @@ func (sef StoreEventFeed) storeStatus(desc *proto.StoreDescriptor) {
 		return
 	}
 	sef.f.Publish(&StoreStatusEvent{
-		StoreID: sef.id,
-		Desc:    desc,
+		Desc: desc,
 	})
 }
 

@@ -171,7 +171,7 @@ func (nsm *NodeStatusMonitor) OnEndScanRanges(event *storage.EndScanRangesEvent)
 // subscription. This method is part of the implementation of
 // store.StoreEventListener.
 func (nsm *NodeStatusMonitor) OnStoreStatus(event *storage.StoreStatusEvent) {
-	ssm := nsm.GetStoreMonitor(event.StoreID)
+	ssm := nsm.GetStoreMonitor(event.Desc.StoreID)
 	ssm.Lock()
 	defer ssm.Unlock()
 	ssm.desc = event.Desc

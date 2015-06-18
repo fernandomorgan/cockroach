@@ -279,8 +279,7 @@ func TestStoreEventFeed(t *testing.T) {
 				feed.storeStatus(storeDesc)
 			},
 			&StoreStatusEvent{
-				StoreID: proto.StoreID(1),
-				Desc:    storeDesc,
+				Desc: storeDesc,
 			},
 		},
 		{
