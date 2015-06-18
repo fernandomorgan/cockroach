@@ -50,7 +50,6 @@ type NodeStatusMonitor struct {
 	sync.RWMutex
 	stores     map[proto.StoreID]*StoreStatusMonitor
 	nodeID     proto.NodeID
-	desc       proto.NodeDescriptor
 	callCount  int64
 	callErrors int64
 }
