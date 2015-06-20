@@ -122,7 +122,7 @@ func NewServer(ctx *Context, stopper *util.Stopper) (*Server, error) {
 	}
 	s.stopper.AddCloser(s.raftTransport)
 
-	s.kvDB = kv.NewDBServer(sender)
+	s.kvDB = kv.NewDBServer(&s.ctx.Context, sender)
 	if s.ctx.ExperimentalRPCServer {
 		if err = s.kvDB.RegisterRPC(s.rpc); err != nil {
 			return nil, err
@@ -185,8 +185,7 @@ func (s *Server) Start(selfBootstrap bool) error {
 	return nil
 }
 
-// initHTTP registers http prefixes. Each distinct prefix should be tested
-// for authentication settings in authentication_test.go.
+// initHTTP registers http prefixes.
 func (s *Server) initHTTP() {
 	s.mux.Handle("/", http.FileServer(
 		&assetfs.AssetFS{Asset: resource.Asset, AssetDir: resource.AssetDir, Prefix: "./ui/"}))
@@ -196,7 +195,7 @@ func (s *Server) initHTTP() {
 	s.mux.Handle(debugEndpoint, s.admin)
 	s.mux.Handle(statusKeyPrefix, s.status)
 
-	s.mux.HandleFunc(kv.DBPrefix, s.authenticateRequest(s.kvDB))
+	s.mux.Handle(kv.DBPrefix, s.kvDB)
 	s.mux.HandleFunc(ts.URLPrefix, s.authenticateRequest(s.tsServer))
 }
 
