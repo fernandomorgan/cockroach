@@ -65,7 +65,7 @@ func TestSSLEnforcement(t *testing.T) {
 	}
 
 	// HTTPS with client certs.
-	certsContext := testutils.NewTestBaseContext()
+	certsContext := testutils.NewRootTestBaseContext()
 	client, err := certsContext.GetHTTPClient()
 	if err != nil {
 		t.Fatalf("error initializing http client: %s", err)
@@ -84,7 +84,7 @@ func TestSSLEnforcement(t *testing.T) {
 	}
 
 	// HTTPS without client certs.
-	noCertsContext := testutils.NewTestBaseContext()
+	noCertsContext := testutils.NewRootTestBaseContext()
 	noCertsContext.Certs = ""
 	client, err = noCertsContext.GetHTTPClient()
 	if err != nil {
@@ -104,7 +104,7 @@ func TestSSLEnforcement(t *testing.T) {
 	}
 
 	// Plain http.
-	insecureContext := testutils.NewTestBaseContext()
+	insecureContext := testutils.NewRootTestBaseContext()
 	insecureContext.Insecure = true
 	client, err = insecureContext.GetHTTPClient()
 	if err != nil {
